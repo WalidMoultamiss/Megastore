@@ -1,21 +1,43 @@
 import { gql } from 'apollo-server-express';
-
-
-
+import { Role } from '@ts/enums';
 
 // Construct a schema, using GraphQL schema language
 export const typeDefs = gql`
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  password: String!
-  createdAt: String!
-  updatedAt: String!
-}
+  input UserInput {
+    firstName: String
+    lastName: String
+    email: String
+    password: String
+    role: Role
+  }
+
+  enum Role {
+    USER
+    SELLER
+  }
+
+  input LoginInput {
+    email: String
+    password: String
+  }
+
+
+  type User {
+    id: ID
+    firstName: String
+    lastName: String
+    email: String
+    role: Role
+    password: String
+  }
 
   type Query {
-    users: [User!]!
-    user(id: ID!): User
+    hello: String
+    getAllUsers: [User]
+  }
+
+  type Mutation {
+    register(input: UserInput): User
+    login(input: LoginInput): User
   }
 `;

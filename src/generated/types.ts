@@ -14,9 +14,60 @@ export type Scalars = {
   Float: number;
 };
 
+export type LoginInput = {
+  email?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  getUserById?: Maybe<User>;
+  login?: Maybe<User>;
+  register?: Maybe<User>;
+};
+
+
+export type MutationGetUserByIdArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type MutationLoginArgs = {
+  input?: InputMaybe<LoginInput>;
+};
+
+
+export type MutationRegisterArgs = {
+  input?: InputMaybe<UserInput>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  getAllUsers?: Maybe<Array<Maybe<User>>>;
   hello?: Maybe<Scalars['String']>;
+};
+
+export enum Role {
+  Seller = 'SELLER',
+  User = 'USER'
+}
+
+export type User = {
+  __typename?: 'User';
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastName?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  role?: Maybe<Role>;
+};
+
+export type UserInput = {
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Role>;
 };
 
 
@@ -89,22 +140,52 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  LoginInput: LoginInput;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Role: Role;
   String: ResolverTypeWrapper<Scalars['String']>;
+  User: ResolverTypeWrapper<User>;
+  UserInput: UserInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  ID: Scalars['ID'];
+  LoginInput: LoginInput;
+  Mutation: {};
   Query: {};
   String: Scalars['String'];
+  User: User;
+  UserInput: UserInput;
+};
+
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  getUserById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationGetUserByIdArgs>>;
+  login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationLoginArgs>>;
+  register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationRegisterArgs>>;
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = Context> = {
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 };
 

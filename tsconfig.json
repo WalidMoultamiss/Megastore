@@ -19,7 +19,8 @@
       "@services/*": ["services/*"],
       "@models/*": ["models/*"],
       "@controllers/*": ["controllers/*"],
-      "@interfaces/*": ["interfaces/*"]
+      "@interfaces/*": ["interfaces/*"],
+      "@ts/*" : ["ts/*"]
     }
   },
   "include": ["src/**/*.ts"]
