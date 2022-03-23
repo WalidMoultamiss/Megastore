@@ -29,11 +29,13 @@ export const typeDefs = gql`
     email: String
     role: Role
     password: String
+    token: String
   }
 
   type Query {
     hello: String
     getAllUsers: [User]
+    getUserById(id: ID!): User
   }
 
   type Mutation {

@@ -2,6 +2,7 @@ import { Role } from '@ts/enums';
 import { Schema, model } from 'mongoose';
 
 // 1. Create an interface representing a document in MongoDB.
+
 export interface IUser {
   id: string;
   firstName: string;
@@ -10,9 +11,9 @@ export interface IUser {
   password: string;
   role: Role;
   token?: string;
-  validatePassword: (password: string) => Promise<boolean>;
-  
 }
+
+
 
 // 2. Create a Schema corresponding to the document interface.
 const schema = new Schema<IUser>(
