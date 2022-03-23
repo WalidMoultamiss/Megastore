@@ -21,7 +21,7 @@ export const resolvers: Resolvers = {
         password: hashedPassword,
         role,
       });
-      const token = sign({ userId: user.id }, "secret", {
+      const token = sign({ userId: user.id, role: user.role }, "secret", {
         expiresIn: process.env.JWT_EXPIRES_IN,
       });
       user.token = token;
@@ -42,7 +42,7 @@ export const resolvers: Resolvers = {
         throw new Error("Invalid password");
       }
 
-      const token = sign({ userId: user.id }, "secret", {
+      const token = sign({ userId: user.id, role: user.role }, "secret", {
         expiresIn: process.env.JWT_EXPIRES_IN,
       });
 

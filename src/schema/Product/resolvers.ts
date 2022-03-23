@@ -1,11 +1,12 @@
 import type { Resolvers } from "@generated/types";
-import { Product, IProduct, Store } from "@models/index";
+import { Product, IProduct, Store ,Category } from "@models/index";
 
 export const resolvers: Resolvers = {
   Query: {
     getAllProducts: (): any => {
       return Product.find();
-    }
+    },
+    getProductById: (_: any, { id }: { id: string }): any => Product.findById(id),
   },
   Mutation: {
     //@ts-ignore
@@ -38,6 +39,9 @@ export const resolvers: Resolvers = {
   Product: {
     storeId: async ({ storeId }) => {
       return await Store.findById(storeId);
+    },
+    categoryIds: async ({ categoryIds }) => {
+      return await Category.find({ _id: { $in: categoryIds } });
     }
   }
 };

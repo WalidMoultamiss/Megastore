@@ -20,7 +20,7 @@ const StoreSchema = new Schema<IStore>({
   description: { type: String, required: true },
   image: { type: String, required: true },
   userId: { type: String, required: true },
-  productIds: { type: [String], required: true },
+  productIds: { type: [String]},
 });
 
 export const Store = model<IStore>("Store", StoreSchema);
