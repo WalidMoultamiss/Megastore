@@ -25,20 +25,22 @@ export const resolvers: Resolvers = {
       return category;
     },
     //@ts-ignore
-    addCategoryToProduct: async (_: any, { id, input }: {input: any }) => {
-      const { categoryId, productIds } = input;
-      const category = await Category.findById(categoryId);
-      if (!category) {
-        throw new Error("Category not found");
+    addCategoryToProduct: async (_: any, { input }: { input: any }) => {
+      const { productIds, categoryIds } = input;
+      const product = await Product.findById(productIds);
+      if (!product) {
+        throw new Error("Product not found");
       }
-      category.productIds.push(...productIds);
-      let chiData = await category.save();
+      console.log(input);
+      
+      product.categoryIds.push(categoryIds);
+      let chiData = await product.save();
       return chiData;
     },
     //@ts-ignore
     addProductToCategory: async (_: any, { input }: { input: any }) => {
-      const { categoryId, productIds } = input;
-      const category = await Category.findById(categoryId);
+      const { categoryIds, productIds } = input;
+      const category = await Category.findById(categoryIds);
       if (!category) {
         throw new Error("Category not found");
       }
@@ -46,7 +48,6 @@ export const resolvers: Resolvers = {
       let chiData = await category.save();
       return chiData;
     }
-
   },
   Category: {
     productIds: async ({ productIds }) => {

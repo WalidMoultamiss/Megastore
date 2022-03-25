@@ -1,38 +1,46 @@
-import {gql} from 'apollo-server-express';
-import {IStatus} from '@ts/enums';
+import { gql } from "apollo-server-express";
+import { IStatus } from "@ts/enums";
 
 export const typeDefs = gql`
-    input CategoryInput {
-        name: String
-        description: String
-        image: String
-        productIds: [ID]
-    }
+  input CategoryInput {
+    name: String
+    description: String
+    image: String
+    productIds: [ID]
+  }
 
+  input CategoryProductInput {
+    categoryId: [ID]
+    productIds: ID
+  }
 
- 
-    input CategoryProductInput {
-        categoryId: ID
-        productIds: [ID]
-    }
+  input ProductCategoryInput {
+    categoryId: ID
+    productIds: [ID]
+  }
 
-    type Category {
-        id: ID
-        name: String
-        description: String
-        image: String
-        productIds: [Product]
-    }
+  input CategoryInput {
+    categoryId: ID
+    productIds: [ID]
+  }
 
-    type Query {
-        getAllCategories: [Category]
-        getCategoryById(id: ID!): Category
-    }
+  type Category {
+    id: ID
+    name: String
+    description: String
+    image: String
+    productIds: [Product]
+  }
 
-    type Mutation {
-        createCategory(input: CategoryInput): Category
-        updateCategory(id: ID!, input: CategoryInput): Category
-        addCategoryToProduct( input: CategoryProductInput): Product
-        addProductToCategory(input: CategoryProductInput): Store
-    }
+  type Query {
+    getAllCategories: [Category]
+    getCategoryById(id: ID!): Category
+  }
+
+  type Mutation {
+    createCategory(input: CategoryInput): Category
+    updateCategory(id: ID!, input: CategoryInput): Category
+    addCategoryToProduct(input: CategoryProductInput): Product
+    addProductToCategory(input: ProductCategoryInput): Store
+  }
 `;

@@ -25,6 +25,7 @@ export type Category = {
 };
 
 export type CategoryInput = {
+  categoryId?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   image?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -32,8 +33,8 @@ export type CategoryInput = {
 };
 
 export type CategoryProductInput = {
-  categoryId?: InputMaybe<Scalars['ID']>;
-  productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  categoryId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  productIds?: InputMaybe<Scalars['ID']>;
 };
 
 export type LoginInput = {
@@ -44,6 +45,7 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   addCategoryToProduct?: Maybe<Product>;
+  addProductToCategory?: Maybe<Store>;
   addProductToStore?: Maybe<Store>;
   createCategory?: Maybe<Category>;
   createProduct?: Maybe<Product>;
@@ -63,8 +65,13 @@ export type MutationAddCategoryToProductArgs = {
 };
 
 
+export type MutationAddProductToCategoryArgs = {
+  input?: InputMaybe<ProductCategoryInput>;
+};
+
+
 export type MutationAddProductToStoreArgs = {
-  input?: InputMaybe<CategoryProductInput>;
+  input?: InputMaybe<ProductStoreInput>;
 };
 
 
@@ -129,6 +136,11 @@ export type Product = {
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['String']>;
   storeId?: Maybe<Store>;
+};
+
+export type ProductCategoryInput = {
+  categoryId?: InputMaybe<Scalars['ID']>;
+  productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type ProductInput = {
@@ -300,6 +312,7 @@ export type ResolversTypes = {
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
   Product: ResolverTypeWrapper<Product>;
+  ProductCategoryInput: ProductCategoryInput;
   ProductInput: ProductInput;
   ProductStoreInput: ProductStoreInput;
   Query: ResolverTypeWrapper<{}>;
@@ -321,6 +334,7 @@ export type ResolversParentTypes = {
   LoginInput: LoginInput;
   Mutation: {};
   Product: Product;
+  ProductCategoryInput: ProductCategoryInput;
   ProductInput: ProductInput;
   ProductStoreInput: ProductStoreInput;
   Query: {};
@@ -342,6 +356,7 @@ export type CategoryResolvers<ContextType = Context, ParentType extends Resolver
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addCategoryToProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, Partial<MutationAddCategoryToProductArgs>>;
+  addProductToCategory?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, Partial<MutationAddProductToCategoryArgs>>;
   addProductToStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, Partial<MutationAddProductToStoreArgs>>;
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, Partial<MutationCreateCategoryArgs>>;
   createProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, Partial<MutationCreateProductArgs>>;
