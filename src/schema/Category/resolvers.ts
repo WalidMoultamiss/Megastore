@@ -31,8 +31,7 @@ export const resolvers: Resolvers = {
       if (!product) {
         throw new Error("Product not found");
       }
-      console.log(input);
-      
+
       product.categoryIds.push(categoryIds);
       let chiData = await product.save();
       return chiData;
