@@ -25,6 +25,7 @@ export const resolvers: Resolvers = {
       return category;
     },
     //@ts-ignore
+    
     addCategoryToProduct: async (_: any, { input }: { input: any }) => {
       const { productIds, categoryIds } = input;
       const product = await Product.findById(productIds);
