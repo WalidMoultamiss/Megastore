@@ -58,6 +58,7 @@ export type Category = {
 };
 
 export type CategoryInput = {
+  categoryId?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   image?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -65,8 +66,8 @@ export type CategoryInput = {
 };
 
 export type CategoryProductInput = {
-  categoryId?: InputMaybe<Scalars['ID']>;
-  productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  categoryId?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  productIds?: InputMaybe<Scalars['ID']>;
 };
 
 export type LoginInput = {
@@ -115,7 +116,7 @@ export type MutationAddOrderToOrderArgs = {
 
 
 export type MutationAddProductToCategoryArgs = {
-  input?: InputMaybe<CategoryProductInput>;
+  input?: InputMaybe<ProductCategoryInput>;
 };
 
 
@@ -225,6 +226,11 @@ export type Product = {
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['String']>;
   storeId?: Maybe<Store>;
+};
+
+export type ProductCategoryInput = {
+  categoryId?: InputMaybe<Scalars['ID']>;
+  productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type ProductInput = {
@@ -436,6 +442,7 @@ export type ResolversTypes = {
   Order: ResolverTypeWrapper<Order>;
   OrderInput: OrderInput;
   Product: ResolverTypeWrapper<Product>;
+  ProductCategoryInput: ProductCategoryInput;
   ProductInput: ProductInput;
   ProductStoreInput: ProductStoreInput;
   Query: ResolverTypeWrapper<{}>;
@@ -464,6 +471,7 @@ export type ResolversParentTypes = {
   Order: Order;
   OrderInput: OrderInput;
   Product: Product;
+  ProductCategoryInput: ProductCategoryInput;
   ProductInput: ProductInput;
   ProductStoreInput: ProductStoreInput;
   Query: {};
