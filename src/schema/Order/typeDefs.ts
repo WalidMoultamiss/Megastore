@@ -9,15 +9,15 @@ export const typeDefs = gql`
 
     type Order {
         id: ID
-        userId: ID
-        productId: ID
+        userId: User
+        productId: Product
         quantity: String
     }
 
     type Query {
         getAllOrders: [Order]
         getOrderById(id: ID!): Order
-        getLastOrderByUserId(id: ID!): Order
+        getLastOrderByUserId(userId: ID!): Order
     }
 
     type Mutation {
