@@ -9,7 +9,7 @@
     "start:prod": "pm2 start ecosystem.config.js",
     "kill": "pm2 kill",
     "monit": "pm2 monit",
-    "npm": "graphql-codegen",
+    "gen": "graphql-codegen",
     "test": "jest",
     "test:cov": "jest --coverage"
   },
