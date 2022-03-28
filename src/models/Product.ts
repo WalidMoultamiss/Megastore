@@ -7,6 +7,7 @@ export interface IProduct {
   image: string;
   price: string;
   storeId: string;
+  categoryIds: string[];
 }
 
 
@@ -17,6 +18,7 @@ const ProductSchema = new Schema<IProduct>({
   image: { type: String, required: true },
   price: { type: String, required: true },
   storeId: { type: String, required: true },
+  categoryIds: [{ type: String  }],
 });
 
 export const Product = model<IProduct>("Product", ProductSchema);

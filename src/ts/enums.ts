@@ -10,9 +10,6 @@ export enum Role {
     INACTIVE = 'INACTIVE',
   }
 
-  
-  
-  
   export enum Status {
     ACTIVE = 'ACTIVE',
     INACTIVE = 'INACTIVE',

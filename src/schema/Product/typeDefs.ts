@@ -22,6 +22,7 @@ export const typeDefs = gql`
         image: String
         price: String
         storeId: Store
+        categoryIds: [Category]
     }
 
     type Query {
@@ -30,9 +31,7 @@ export const typeDefs = gql`
     }
 
     type Mutation {
-        addProductToStore(
-            input: ProductStoreInput
-        ): Store
+        addProductToStore(input: ProductStoreInput): Store
         createProduct(input: ProductInput): Product
         updateProduct(id: ID!, input: ProductInput): Product
         deleteProduct(id: ID!): Product
