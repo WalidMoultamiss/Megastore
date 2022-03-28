@@ -15,6 +15,44 @@ export type Scalars = {
   Float: number;
 };
 
+export type Admin = {
+  __typename?: 'Admin';
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastName?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+export type AdminInput = {
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+};
+
+export type Brand = {
+  __typename?: 'Brand';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  productIds?: Maybe<Array<Maybe<Product>>>;
+};
+
+export type BrandInput = {
+  description?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+export type BrandProductInput = {
+  brandId?: InputMaybe<Scalars['ID']>;
+  productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
 export type Category = {
   __typename?: 'Category';
   description?: Maybe<Scalars['String']>;
@@ -44,19 +82,29 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addBrandToProduct?: Maybe<Product>;
   addCategoryToProduct?: Maybe<Product>;
   addProductToCategory?: Maybe<Store>;
   addProductToStore?: Maybe<Store>;
+  createBrand?: Maybe<Brand>;
   createCategory?: Maybe<Category>;
   createProduct?: Maybe<Product>;
   createStore?: Maybe<Store>;
   deleteProduct?: Maybe<Product>;
   deleteStore?: Maybe<Store>;
   login?: Maybe<User>;
+  loginAdmin?: Maybe<Admin>;
   register?: Maybe<User>;
+  registerAdmin?: Maybe<Admin>;
   updateCategory?: Maybe<Category>;
   updateProduct?: Maybe<Product>;
   updateStore?: Maybe<Store>;
+  updatebrand?: Maybe<Brand>;
+};
+
+
+export type MutationAddBrandToProductArgs = {
+  input?: InputMaybe<BrandProductInput>;
 };
 
 
@@ -72,6 +120,11 @@ export type MutationAddProductToCategoryArgs = {
 
 export type MutationAddProductToStoreArgs = {
   input?: InputMaybe<ProductStoreInput>;
+};
+
+
+export type MutationCreateBrandArgs = {
+  input?: InputMaybe<BrandInput>;
 };
 
 
@@ -105,8 +158,18 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationLoginAdminArgs = {
+  input?: InputMaybe<LoginInput>;
+};
+
+
 export type MutationRegisterArgs = {
   input?: InputMaybe<UserInput>;
+};
+
+
+export type MutationRegisterAdminArgs = {
+  input?: InputMaybe<AdminInput>;
 };
 
 
@@ -125,6 +188,12 @@ export type MutationUpdateProductArgs = {
 export type MutationUpdateStoreArgs = {
   id: Scalars['ID'];
   input?: InputMaybe<StoreInput>;
+};
+
+
+export type MutationUpdatebrandArgs = {
+  id: Scalars['ID'];
+  input?: InputMaybe<BrandInput>;
 };
 
 export type Product = {
@@ -158,15 +227,29 @@ export type ProductStoreInput = {
 
 export type Query = {
   __typename?: 'Query';
+  getAdminById?: Maybe<Admin>;
+  getAllAdmins: Array<Maybe<Admin>>;
+  getAllBrands?: Maybe<Array<Maybe<Brand>>>;
   getAllCategories?: Maybe<Array<Maybe<Category>>>;
   getAllProducts?: Maybe<Array<Maybe<Product>>>;
   getAllStores?: Maybe<Array<Maybe<Store>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
+  getBrandById?: Maybe<Brand>;
   getCategoryById?: Maybe<Category>;
   getProductById?: Maybe<Product>;
   getStoreById?: Maybe<Store>;
   getUserById?: Maybe<User>;
   hello?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetAdminByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetBrandByIdArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -304,7 +387,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Admin: ResolverTypeWrapper<Admin>;
+  AdminInput: AdminInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Brand: ResolverTypeWrapper<Brand>;
+  BrandInput: BrandInput;
+  BrandProductInput: BrandProductInput;
   Category: ResolverTypeWrapper<Category>;
   CategoryInput: CategoryInput;
   CategoryProductInput: CategoryProductInput;
@@ -326,7 +414,12 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Admin: Admin;
+  AdminInput: AdminInput;
   Boolean: Scalars['Boolean'];
+  Brand: Brand;
+  BrandInput: BrandInput;
+  BrandProductInput: BrandProductInput;
   Category: Category;
   CategoryInput: CategoryInput;
   CategoryProductInput: CategoryProductInput;
@@ -345,6 +438,25 @@ export type ResolversParentTypes = {
   UserInput: UserInput;
 };
 
+export type AdminResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Admin'] = ResolversParentTypes['Admin']> = {
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BrandResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Brand'] = ResolversParentTypes['Brand']> = {
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  productIds?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type CategoryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -355,19 +467,24 @@ export type CategoryResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addBrandToProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, Partial<MutationAddBrandToProductArgs>>;
   addCategoryToProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, Partial<MutationAddCategoryToProductArgs>>;
   addProductToCategory?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, Partial<MutationAddProductToCategoryArgs>>;
   addProductToStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, Partial<MutationAddProductToStoreArgs>>;
+  createBrand?: Resolver<Maybe<ResolversTypes['Brand']>, ParentType, ContextType, Partial<MutationCreateBrandArgs>>;
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, Partial<MutationCreateCategoryArgs>>;
   createProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, Partial<MutationCreateProductArgs>>;
   createStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, Partial<MutationCreateStoreArgs>>;
   deleteProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationDeleteProductArgs, 'id'>>;
   deleteStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, RequireFields<MutationDeleteStoreArgs, 'id'>>;
   login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationLoginArgs>>;
+  loginAdmin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, Partial<MutationLoginAdminArgs>>;
   register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationRegisterArgs>>;
+  registerAdmin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, Partial<MutationRegisterAdminArgs>>;
   updateCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'id'>>;
   updateProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationUpdateProductArgs, 'id'>>;
   updateStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, RequireFields<MutationUpdateStoreArgs, 'id'>>;
+  updatebrand?: Resolver<Maybe<ResolversTypes['Brand']>, ParentType, ContextType, RequireFields<MutationUpdatebrandArgs, 'id'>>;
 };
 
 export type ProductResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
@@ -382,10 +499,14 @@ export type ProductResolvers<ContextType = Context, ParentType extends Resolvers
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getAdminById?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, RequireFields<QueryGetAdminByIdArgs, 'id'>>;
+  getAllAdmins?: Resolver<Array<Maybe<ResolversTypes['Admin']>>, ParentType, ContextType>;
+  getAllBrands?: Resolver<Maybe<Array<Maybe<ResolversTypes['Brand']>>>, ParentType, ContextType>;
   getAllCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   getAllProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
   getAllStores?: Resolver<Maybe<Array<Maybe<ResolversTypes['Store']>>>, ParentType, ContextType>;
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  getBrandById?: Resolver<Maybe<ResolversTypes['Brand']>, ParentType, ContextType, RequireFields<QueryGetBrandByIdArgs, 'id'>>;
   getCategoryById?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryGetCategoryByIdArgs, 'id'>>;
   getProductById?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByIdArgs, 'id'>>;
   getStoreById?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, RequireFields<QueryGetStoreByIdArgs, 'id'>>;
@@ -417,6 +538,8 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
 };
 
 export type Resolvers<ContextType = Context> = {
+  Admin?: AdminResolvers<ContextType>;
+  Brand?: BrandResolvers<ContextType>;
   Category?: CategoryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Product?: ProductResolvers<ContextType>;
