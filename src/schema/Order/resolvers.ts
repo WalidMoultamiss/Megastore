@@ -8,6 +8,7 @@ export const resolvers: Resolvers = {
     getAllOrders:(): any => {
       return Order.find();
     },
+    getOrderById: (_: any, { id }: { id: string }): any => Order.findById(id),
   },
   Mutation:{
     //@ts-ignore
@@ -19,12 +20,5 @@ export const resolvers: Resolvers = {
       return chiData;
     },
   },
-  Order:{
-    // @ts-ignore
-    productId: async ({ productId }) => {
-      console.log(productId);
-      
-      return await Product.findById(productId);
-    },
-  }
+  
 };
