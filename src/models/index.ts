@@ -4,3 +4,4 @@ export { Product, IProduct } from "./Product";
 export { Category, ICategory } from "./Category";
 export { Brand, IBrand } from "./brand";
 export { Admin, IAdmin } from "./Admin";
+export { SubAdmin, ISubAdmin } from "./SubAdmin";
