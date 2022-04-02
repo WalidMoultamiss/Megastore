@@ -6,3 +6,4 @@ export { Brand, IBrand } from "./brand";
 export { Admin, IAdmin } from "./Admin";
 export { Order, IOrder } from "./Order";
 export { Options, IOptions } from "./StoreOptions";
+export { SubAdmin, ISubAdmin } from "./SubAdmin";
