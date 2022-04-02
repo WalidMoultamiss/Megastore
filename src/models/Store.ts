@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import {IProduct} from "@models/Product";
+import { IOptions } from "@models/StoreOptions";
+
 
 export interface IStore {
   name: string;
@@ -9,6 +11,7 @@ export interface IStore {
   image: string;
   userId: string;
   productIds: string[];
+  options: string;
 }
 
 
@@ -21,6 +24,9 @@ const StoreSchema = new Schema<IStore>({
   image: { type: String, required: true },
   userId: { type: String, required: true },
   productIds: { type: [String]},
+  options: { type: String }
 });
 
 export const Store = model<IStore>("Store", StoreSchema);
+
+// Store.collection.dropIndexes();

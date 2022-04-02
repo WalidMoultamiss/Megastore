@@ -1,5 +1,5 @@
 import type { Resolvers } from "@generated/types";
-import { Store, IStore, User ,Product } from "@models/index";
+import { Store, IStore, User ,Product , Options } from "@models/index";
 
 export const resolvers: Resolvers = {
   Query: {
@@ -25,5 +25,9 @@ export const resolvers: Resolvers = {
     productIds: async ({ productIds }) => {
       return await Product.find({ _id: { $in: productIds } });
     },
+    options: async ({ options }) => {
+      return await Options.findById(options);
+    }
+
   },
 };

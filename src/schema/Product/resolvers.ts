@@ -42,6 +42,6 @@ export const resolvers: Resolvers = {
     },
     categoryIds: async ({ categoryIds }) => {
       return await Category.find({ _id: { $in: categoryIds } });
-    }
+    },
   }
 };

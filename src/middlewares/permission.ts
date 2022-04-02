@@ -17,4 +17,6 @@ export const permissions = shield({
   Query: {
     hello: isAuthenticated,
   },
+},{
+  debug: process.env.NODE_ENV !== 'production',
 });

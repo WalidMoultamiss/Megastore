@@ -9,8 +9,6 @@ export const typeDefs = gql`
         productIds: [ID]
     }
 
-
- 
     input BrandProductInput {
         brandId: ID
         productIds: [ID]

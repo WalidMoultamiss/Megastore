@@ -2,6 +2,7 @@
   "name": "gql-app",
   "version": "1.0.0",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/main.ts",
     "build": "tsc && tsc-alias",

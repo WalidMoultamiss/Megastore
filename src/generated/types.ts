@@ -15,7 +15,6 @@ export type Scalars = {
   Float: number;
 };
 
-<<<<<<< HEAD
 export type Admin = {
   __typename?: 'Admin';
   email?: Maybe<Scalars['String']>;
@@ -33,8 +32,6 @@ export type AdminInput = {
   password?: InputMaybe<Scalars['String']>;
 };
 
-=======
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
 export type Brand = {
   __typename?: 'Brand';
   description?: Maybe<Scalars['String']>;
@@ -56,8 +53,6 @@ export type BrandProductInput = {
   productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
-<<<<<<< HEAD
-=======
 export type Cart = {
   __typename?: 'Cart';
   id?: Maybe<Scalars['ID']>;
@@ -70,7 +65,6 @@ export type CartInput = {
   userId: Scalars['ID'];
 };
 
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
 export type Category = {
   __typename?: 'Category';
   description?: Maybe<Scalars['String']>;
@@ -105,17 +99,17 @@ export type Mutation = {
   addOrderToOrder?: Maybe<Order>;
   addProductToCategory?: Maybe<Store>;
   addProductToStore?: Maybe<Store>;
+  addStoreOptionToStore?: Maybe<StoreOptions>;
   createBrand?: Maybe<Brand>;
-<<<<<<< HEAD
-=======
   createCart?: Maybe<Cart>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   createCategory?: Maybe<Category>;
   createOrder?: Maybe<Order>;
   createProduct?: Maybe<Product>;
   createStore?: Maybe<Store>;
+  createStoreOptions?: Maybe<StoreOptions>;
   deleteProduct?: Maybe<Product>;
   deleteStore?: Maybe<Store>;
+  deleteStoreOptions?: Maybe<StoreOptions>;
   login?: Maybe<User>;
   loginAdmin?: Maybe<Admin>;
   register?: Maybe<User>;
@@ -124,6 +118,7 @@ export type Mutation = {
   updateOrder?: Maybe<Order>;
   updateProduct?: Maybe<Product>;
   updateStore?: Maybe<Store>;
+  updateStoreOptions?: Maybe<StoreOptions>;
   updatebrand?: Maybe<Brand>;
 };
 
@@ -153,19 +148,21 @@ export type MutationAddProductToStoreArgs = {
 };
 
 
+export type MutationAddStoreOptionToStoreArgs = {
+  input?: InputMaybe<AddOptionToStore>;
+};
+
+
 export type MutationCreateBrandArgs = {
   input?: InputMaybe<BrandInput>;
 };
 
 
-<<<<<<< HEAD
-=======
 export type MutationCreateCartArgs = {
   input?: InputMaybe<CartInput>;
 };
 
 
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
 export type MutationCreateCategoryArgs = {
   input?: InputMaybe<CategoryInput>;
 };
@@ -186,12 +183,22 @@ export type MutationCreateStoreArgs = {
 };
 
 
+export type MutationCreateStoreOptionsArgs = {
+  input?: InputMaybe<StoreOptionsInput>;
+};
+
+
 export type MutationDeleteProductArgs = {
   id: Scalars['ID'];
 };
 
 
 export type MutationDeleteStoreArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteStoreOptionsArgs = {
   id: Scalars['ID'];
 };
 
@@ -239,19 +246,23 @@ export type MutationUpdateStoreArgs = {
 };
 
 
+export type MutationUpdateStoreOptionsArgs = {
+  id: Scalars['ID'];
+  input?: InputMaybe<StoreOptionsInput>;
+};
+
+
 export type MutationUpdatebrandArgs = {
   id: Scalars['ID'];
   input?: InputMaybe<BrandInput>;
 };
 
-<<<<<<< HEAD
-=======
 export type Order = {
   __typename?: 'Order';
   id?: Maybe<Scalars['ID']>;
-  productId?: Maybe<Scalars['ID']>;
+  productId?: Maybe<Product>;
   quantity?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['ID']>;
+  userId?: Maybe<User>;
 };
 
 export type OrderInput = {
@@ -260,7 +271,6 @@ export type OrderInput = {
   userId?: InputMaybe<Scalars['ID']>;
 };
 
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
 export type Product = {
   __typename?: 'Product';
   categoryIds?: Maybe<Array<Maybe<Category>>>;
@@ -292,51 +302,43 @@ export type ProductStoreInput = {
 
 export type Query = {
   __typename?: 'Query';
-<<<<<<< HEAD
   getAdminById?: Maybe<Admin>;
   getAllAdmins: Array<Maybe<Admin>>;
   getAllBrands?: Maybe<Array<Maybe<Brand>>>;
-=======
-  getAllBrands?: Maybe<Array<Maybe<Brand>>>;
   getAllCarts?: Maybe<Array<Maybe<Cart>>>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   getAllCategories?: Maybe<Array<Maybe<Category>>>;
   getAllOrders?: Maybe<Array<Maybe<Order>>>;
   getAllProducts?: Maybe<Array<Maybe<Product>>>;
+  getAllStoreOptions?: Maybe<Array<Maybe<StoreOptions>>>;
   getAllStores?: Maybe<Array<Maybe<Store>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
   getBrandById?: Maybe<Brand>;
-<<<<<<< HEAD
-=======
   getCartById?: Maybe<Cart>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   getCategoryById?: Maybe<Category>;
   getLastCartByUserId?: Maybe<Cart>;
   getLastOrderByUserId?: Maybe<Order>;
   getOrderById?: Maybe<Order>;
   getProductById?: Maybe<Product>;
   getStoreById?: Maybe<Store>;
+  getStoreOptionsById?: Maybe<StoreOptions>;
+  getStoreOptionsByStoreId?: Maybe<StoreOptions>;
   getUserById?: Maybe<User>;
   hello?: Maybe<Scalars['String']>;
 };
 
 
-<<<<<<< HEAD
 export type QueryGetAdminByIdArgs = {
-=======
-export type QueryGetBrandByIdArgs = {
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   id: Scalars['ID'];
 };
 
 
-<<<<<<< HEAD
 export type QueryGetBrandByIdArgs = {
   id: Scalars['ID'];
-=======
+};
+
+
 export type QueryGetCartByIdArgs = {
   id?: InputMaybe<Scalars['ID']>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
 };
 
 
@@ -351,7 +353,7 @@ export type QueryGetLastCartByUserIdArgs = {
 
 
 export type QueryGetLastOrderByUserIdArgs = {
-  id: Scalars['ID'];
+  userId: Scalars['ID'];
 };
 
 
@@ -366,6 +368,16 @@ export type QueryGetProductByIdArgs = {
 
 
 export type QueryGetStoreByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetStoreOptionsByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetStoreOptionsByStoreIdArgs = {
   id: Scalars['ID'];
 };
 
@@ -386,6 +398,7 @@ export type Store = {
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  options?: Maybe<StoreOptions>;
   phone?: Maybe<Scalars['String']>;
   productIds?: Maybe<Array<Maybe<Product>>>;
   userId?: Maybe<User>;
@@ -399,6 +412,30 @@ export type StoreInput = {
   phone?: InputMaybe<Scalars['String']>;
   productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   userId?: InputMaybe<Scalars['ID']>;
+};
+
+export type StoreOptions = {
+  __typename?: 'StoreOptions';
+  bestProducts?: Maybe<Scalars['Boolean']>;
+  bgColor?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  ourBrands?: Maybe<Scalars['Boolean']>;
+  primaryColor?: Maybe<Scalars['String']>;
+  slider?: Maybe<Scalars['Boolean']>;
+  slider_image?: Maybe<Array<Maybe<Scalars['String']>>>;
+  storeId?: Maybe<Scalars['String']>;
+  whatsapp?: Maybe<Scalars['Boolean']>;
+};
+
+export type StoreOptionsInput = {
+  bestProducts?: InputMaybe<Scalars['Boolean']>;
+  bgColor?: InputMaybe<Scalars['String']>;
+  ourBrands?: InputMaybe<Scalars['Boolean']>;
+  primaryColor?: InputMaybe<Scalars['String']>;
+  slider?: InputMaybe<Scalars['Boolean']>;
+  slider_image?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  storeId?: InputMaybe<Scalars['String']>;
+  whatsapp?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type User = {
@@ -418,6 +455,11 @@ export type UserInput = {
   lastName?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Role>;
+};
+
+export type AddOptionToStore = {
+  optionId?: InputMaybe<Scalars['String']>;
+  storeId?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -495,11 +537,8 @@ export type ResolversTypes = {
   Brand: ResolverTypeWrapper<Brand>;
   BrandInput: BrandInput;
   BrandProductInput: BrandProductInput;
-<<<<<<< HEAD
-=======
   Cart: ResolverTypeWrapper<Cart>;
   CartInput: CartInput;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   Category: ResolverTypeWrapper<Category>;
   CategoryInput: CategoryInput;
   CategoryProductInput: CategoryProductInput;
@@ -516,9 +555,12 @@ export type ResolversTypes = {
   Role: Role;
   Store: ResolverTypeWrapper<Store>;
   StoreInput: StoreInput;
+  StoreOptions: ResolverTypeWrapper<StoreOptions>;
+  StoreOptionsInput: StoreOptionsInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
   UserInput: UserInput;
+  addOptionToStore: AddOptionToStore;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -529,11 +571,8 @@ export type ResolversParentTypes = {
   Brand: Brand;
   BrandInput: BrandInput;
   BrandProductInput: BrandProductInput;
-<<<<<<< HEAD
-=======
   Cart: Cart;
   CartInput: CartInput;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   Category: Category;
   CategoryInput: CategoryInput;
   CategoryProductInput: CategoryProductInput;
@@ -549,12 +588,14 @@ export type ResolversParentTypes = {
   Query: {};
   Store: Store;
   StoreInput: StoreInput;
+  StoreOptions: StoreOptions;
+  StoreOptionsInput: StoreOptionsInput;
   String: Scalars['String'];
   User: User;
   UserInput: UserInput;
+  addOptionToStore: AddOptionToStore;
 };
 
-<<<<<<< HEAD
 export type AdminResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Admin'] = ResolversParentTypes['Admin']> = {
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -565,8 +606,6 @@ export type AdminResolvers<ContextType = Context, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-=======
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
 export type BrandResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Brand'] = ResolversParentTypes['Brand']> = {
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -576,8 +615,6 @@ export type BrandResolvers<ContextType = Context, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-<<<<<<< HEAD
-=======
 export type CartResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   orderIds?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
@@ -585,7 +622,6 @@ export type CartResolvers<ContextType = Context, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
 export type CategoryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -601,17 +637,17 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   addOrderToOrder?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, Partial<MutationAddOrderToOrderArgs>>;
   addProductToCategory?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, Partial<MutationAddProductToCategoryArgs>>;
   addProductToStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, Partial<MutationAddProductToStoreArgs>>;
+  addStoreOptionToStore?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType, Partial<MutationAddStoreOptionToStoreArgs>>;
   createBrand?: Resolver<Maybe<ResolversTypes['Brand']>, ParentType, ContextType, Partial<MutationCreateBrandArgs>>;
-<<<<<<< HEAD
-=======
   createCart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, Partial<MutationCreateCartArgs>>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, Partial<MutationCreateCategoryArgs>>;
   createOrder?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, Partial<MutationCreateOrderArgs>>;
   createProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, Partial<MutationCreateProductArgs>>;
   createStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, Partial<MutationCreateStoreArgs>>;
+  createStoreOptions?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType, Partial<MutationCreateStoreOptionsArgs>>;
   deleteProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationDeleteProductArgs, 'id'>>;
   deleteStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, RequireFields<MutationDeleteStoreArgs, 'id'>>;
+  deleteStoreOptions?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType, RequireFields<MutationDeleteStoreOptionsArgs, 'id'>>;
   login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationLoginArgs>>;
   loginAdmin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, Partial<MutationLoginAdminArgs>>;
   register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationRegisterArgs>>;
@@ -620,18 +656,16 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   updateOrder?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, Partial<MutationUpdateOrderArgs>>;
   updateProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationUpdateProductArgs, 'id'>>;
   updateStore?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, RequireFields<MutationUpdateStoreArgs, 'id'>>;
+  updateStoreOptions?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType, RequireFields<MutationUpdateStoreOptionsArgs, 'id'>>;
   updatebrand?: Resolver<Maybe<ResolversTypes['Brand']>, ParentType, ContextType, RequireFields<MutationUpdatebrandArgs, 'id'>>;
-<<<<<<< HEAD
-=======
 };
 
 export type OrderResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Order'] = ResolversParentTypes['Order']> = {
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  productId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  productId?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
   quantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
 };
 
 export type ProductResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
@@ -646,30 +680,26 @@ export type ProductResolvers<ContextType = Context, ParentType extends Resolvers
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-<<<<<<< HEAD
   getAdminById?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, RequireFields<QueryGetAdminByIdArgs, 'id'>>;
   getAllAdmins?: Resolver<Array<Maybe<ResolversTypes['Admin']>>, ParentType, ContextType>;
   getAllBrands?: Resolver<Maybe<Array<Maybe<ResolversTypes['Brand']>>>, ParentType, ContextType>;
-=======
-  getAllBrands?: Resolver<Maybe<Array<Maybe<ResolversTypes['Brand']>>>, ParentType, ContextType>;
   getAllCarts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Cart']>>>, ParentType, ContextType>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   getAllCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   getAllOrders?: Resolver<Maybe<Array<Maybe<ResolversTypes['Order']>>>, ParentType, ContextType>;
   getAllProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  getAllStoreOptions?: Resolver<Maybe<Array<Maybe<ResolversTypes['StoreOptions']>>>, ParentType, ContextType>;
   getAllStores?: Resolver<Maybe<Array<Maybe<ResolversTypes['Store']>>>, ParentType, ContextType>;
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   getBrandById?: Resolver<Maybe<ResolversTypes['Brand']>, ParentType, ContextType, RequireFields<QueryGetBrandByIdArgs, 'id'>>;
-<<<<<<< HEAD
-=======
   getCartById?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, Partial<QueryGetCartByIdArgs>>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   getCategoryById?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryGetCategoryByIdArgs, 'id'>>;
   getLastCartByUserId?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, RequireFields<QueryGetLastCartByUserIdArgs, 'id'>>;
-  getLastOrderByUserId?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, RequireFields<QueryGetLastOrderByUserIdArgs, 'id'>>;
+  getLastOrderByUserId?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, RequireFields<QueryGetLastOrderByUserIdArgs, 'userId'>>;
   getOrderById?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, RequireFields<QueryGetOrderByIdArgs, 'id'>>;
   getProductById?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByIdArgs, 'id'>>;
   getStoreById?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, RequireFields<QueryGetStoreByIdArgs, 'id'>>;
+  getStoreOptionsById?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType, RequireFields<QueryGetStoreOptionsByIdArgs, 'id'>>;
+  getStoreOptionsByStoreId?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType, RequireFields<QueryGetStoreOptionsByStoreIdArgs, 'id'>>;
   getUserById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'id'>>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
@@ -680,9 +710,23 @@ export type StoreResolvers<ContextType = Context, ParentType extends ResolversPa
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  options?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   productIds?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type StoreOptionsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['StoreOptions'] = ResolversParentTypes['StoreOptions']> = {
+  bestProducts?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  bgColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  ourBrands?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  primaryColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  slider?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  slider_image?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  storeId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  whatsapp?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -698,19 +742,16 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
 };
 
 export type Resolvers<ContextType = Context> = {
-<<<<<<< HEAD
   Admin?: AdminResolvers<ContextType>;
   Brand?: BrandResolvers<ContextType>;
-=======
-  Brand?: BrandResolvers<ContextType>;
   Cart?: CartResolvers<ContextType>;
->>>>>>> 9357925aed347a489124c73a7d33b73c5cf98eb0
   Category?: CategoryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Order?: OrderResolvers<ContextType>;
   Product?: ProductResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Store?: StoreResolvers<ContextType>;
+  StoreOptions?: StoreOptionsResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

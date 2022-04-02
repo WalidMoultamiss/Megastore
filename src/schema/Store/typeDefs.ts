@@ -21,6 +21,7 @@ export const typeDefs = gql`
         image: String
         userId: User
         productIds: [Product]
+        options: StoreOptions
     }
 
     type Query {
