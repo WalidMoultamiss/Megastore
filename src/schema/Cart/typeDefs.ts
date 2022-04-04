@@ -11,7 +11,7 @@ export const typeDefs = gql`
     type Cart {
         id: ID
         userId: User!
-        orderIds: [ID]
+        orderIds: [Order]
     }
 
     type Query {

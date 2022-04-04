@@ -1,5 +1,6 @@
+import { pubsub } from "@config/pubsub";
 import type { Resolvers } from "@generated/types";
-import { User, IUser , Store } from "@models/index";
+import { User, IUser, Store } from "@models/index";
 import { hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 
@@ -46,20 +47,25 @@ export const resolvers: Resolvers = {
       const store = await Store.findOne({ userId: user.id });
       if (!store) {
         user.store = "not found";
-      }else{
+      } else {
         user.store = store;
       }
-
-      
-
-
 
       const token = sign({ userId: user.id, role: user.role }, "secret", {
         expiresIn: process.env.JWT_EXPIRES_IN,
       });
 
+      pubsub.publish("userLoggedIn", { userLoggedIn: user });
+
       user.token = token;
       return user;
+    },
+  },
+  Subscription: {
+    userLoggedIn: {
+      subscribe: (_: any, __: any, { pubsub }: any): any => {
+        return pubsub.asyncIterator("userLoggedIn");
+      },
     },
   },
 };

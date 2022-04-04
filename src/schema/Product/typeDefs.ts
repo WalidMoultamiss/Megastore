@@ -36,4 +36,10 @@ export const typeDefs = gql`
         updateProduct(id: ID!, input: ProductInput): Product
         deleteProduct(id: ID!): Product
     }
+
+    type Subscription {
+        productAdded: Product
+        productUpdated: Product
+        productDeleted: Product
+    }
 `;

@@ -43,4 +43,11 @@ export const typeDefs = gql`
     register(input: UserInput): User
     login(input: LoginInput): User
   }
+
+  type Subscription {
+    userLoggedIn: User
+    userAdded: User
+    userUpdated: User
+    userDeleted: User
+  }
 `;

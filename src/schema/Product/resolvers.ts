@@ -1,3 +1,4 @@
+import { pubsub } from "@config/pubsub";
 import type { Resolvers } from "@generated/types";
 import { Product, IProduct, Store ,Category } from "@models/index";
 
@@ -15,7 +16,9 @@ export const resolvers: Resolvers = {
         ...input,
       });
       let chiData = await product.save();
+      pubsub.publish("productAdded", { productAdded: chiData });
       return chiData;
+
     },
     //@ts-ignore
     addProductToStore: async (_: any, { input }: { input: any }) => {
@@ -35,6 +38,11 @@ export const resolvers: Resolvers = {
       }, { new: true });
       return product;
     }
+  },
+  Subscription: {
+    productAdded: {
+      subscribe: () => pubsub.asyncIterator("productAdded")
+    },
   },
   Product: {
     storeId: async ({ storeId }) => {

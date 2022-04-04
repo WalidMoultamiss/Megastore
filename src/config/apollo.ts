@@ -1,43 +1,67 @@
 import express from 'express';
-import http from 'http';
-import compression from 'compression';
-import helmet from 'helmet';
+import cors from 'cors';
 import depthLimit from 'graphql-depth-limit';
+import compression from 'compression';
+import Redis from 'ioredis';
+import responseCachePlugin from 'apollo-server-plugin-response-cache';
+import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { context } from './context';
 import { GraphQLSchema } from 'graphql';
 import { db } from './db';
+import { WebSocket } from './WebSocketServer';
+import { BaseRedisCache } from 'apollo-server-cache-redis';
+import { RedisOptions } from './redis';
 
-const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 4000;
 
-export const startApolloServer = async (schema: GraphQLSchema) => {
+export const bootstrap = async (schema: GraphQLSchema) => {
+  // Create an Express app and HTTP server; we will attach both the WebSocket
+  // server and the ApolloServer to this HTTP server.
   const app = express();
+  const httpServer = createServer(app);
+
+  app.use(cors());
   app.use(compression());
-  app.use(
-    helmet({
-      contentSecurityPolicy: isProduction,
-      crossOriginEmbedderPolicy: isProduction,
-    })
-  );
 
 
-  const httpServer = http.createServer(app);
+  // Create the Web Socket instance, using the schema we created earlier
+  const serverCleanup = WebSocket(httpServer, schema);
 
+  // Set up ApolloServer.
   const server = new ApolloServer({
+    introspection: true,
     context,
     schema,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    validationRules: [depthLimit(10)],
+    cache: new BaseRedisCache({
+      //@ts-ignore
+      client: new Redis(RedisOptions),
+    }),
+    plugins: [
+      responseCachePlugin(),
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
+    ],
+    validationRules: [depthLimit(7)],
     formatError: (error: any) => {
-      // don't expose internal server errors to the client ex: database errors
+      // Remove the internal database error message
       return error;
     },
   });
+
   await server.start();
-  
-  server.applyMiddleware({ app, path: '/gql' });
+  server.applyMiddleware({ app, path: '/gql', cors: { origin: '*' } });
+
+  // Now that our HTTP server is fully set up, we can listen to it.
   httpServer.listen(port, async () => {
     console.log(
       `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
@@ -46,9 +70,4 @@ export const startApolloServer = async (schema: GraphQLSchema) => {
     // connect to database
     console.log(`👋 Connected to database successfully: ${connection.name}`);
   });
-
-
-  return {
-    url: `http://localhost:${port}${server.graphqlPath}`,
-  };
 };
