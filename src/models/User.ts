@@ -11,6 +11,7 @@ export interface IUser {
   password: string;
   role: Role;
   token?: string;
+  store?: any;
 }
 
 
@@ -23,6 +24,7 @@ const schema = new Schema<IUser>(
     email: { type: String},
     password: { type: String},
     token: { type: String},
+    store: { type: Schema.Types.ObjectId, ref: 'Store'},
     role: {
       type: String,
     
@@ -30,7 +32,8 @@ const schema = new Schema<IUser>(
       default: Role.USER,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
+
 );
 
 // 3. Create a Model.

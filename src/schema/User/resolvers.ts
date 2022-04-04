@@ -1,5 +1,5 @@
 import type { Resolvers } from "@generated/types";
-import { User, IUser } from "@models/index";
+import { User, IUser , Store } from "@models/index";
 import { hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 
@@ -41,6 +41,18 @@ export const resolvers: Resolvers = {
       if (!isValid) {
         throw new Error("Invalid password");
       }
+
+      //get store
+      const store = await Store.findOne({ userId: user.id });
+      if (!store) {
+        user.store = "not found";
+      }else{
+        user.store = store;
+      }
+
+      
+
+
 
       const token = sign({ userId: user.id, role: user.role }, "secret", {
         expiresIn: process.env.JWT_EXPIRES_IN,

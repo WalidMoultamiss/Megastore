@@ -10,6 +10,8 @@ export const typeDefs = gql`
         primaryColor: String
         bgColor: String
         storeId: String
+        popup: Boolean
+        popupImage: String
     }
 
     input addOptionToStore {
@@ -24,9 +26,11 @@ export const typeDefs = gql`
         bestProducts: Boolean
         ourBrands: Boolean
         whatsapp: Boolean
+        popup: Boolean
         primaryColor: String
         bgColor: String
         storeId: String
+        popupImage: String
     }
 
     type Query {

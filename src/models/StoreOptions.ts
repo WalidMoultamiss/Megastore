@@ -9,6 +9,8 @@ export interface IOptions {
     primaryColor: string;
     bgColor: string;
     storeId: string;
+    popup: boolean;
+    popupImage: string;
 
 }
 
@@ -23,6 +25,8 @@ const OptionSchema = new Schema<IOptions>({
     primaryColor: { type: String, required: true, default: "#0000ff" },
     bgColor: { type: String, required: true, default: "#ffffff" },
     storeId: { type: String, required: true, default: "" },
+    popup: { type: Boolean, required: true, default: false },
+    popupImage: { type: String, default: "" }
 });
 
 

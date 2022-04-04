@@ -49,7 +49,7 @@ export const resolvers: Resolvers = {
       subAdmin.token = token;
       return subAdmin;
     },
-
+    //@ts-ignore
     createAdmin: async (
       _: any,
       { input }: { input: ISubAdmin }
