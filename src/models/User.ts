@@ -12,6 +12,7 @@ export interface IUser {
   role: Role;
   token?: string;
   store?: any;
+  createdAt: Date;
 }
 
 
@@ -27,12 +28,11 @@ const schema = new Schema<IUser>(
     store: { type: Schema.Types.ObjectId, ref: 'Store'},
     role: {
       type: String,
-    
       enum: Role,
       default: Role.USER,
     },
+    createdAt:{ type: Date, default: Date.now },
   },
-  { timestamps: true },
 
 );
 

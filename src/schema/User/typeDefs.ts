@@ -1,5 +1,5 @@
-import { gql } from 'apollo-server-express';
-import { Role } from '@ts/enums';
+import { gql } from "apollo-server-express";
+import { Role } from "@ts/enums";
 
 // Construct a schema, using GraphQL schema language
 export const typeDefs = gql`
@@ -21,7 +21,6 @@ export const typeDefs = gql`
     password: String
   }
 
-
   type User {
     id: ID
     firstName: String
@@ -31,6 +30,7 @@ export const typeDefs = gql`
     password: String
     token: String
     store: Store
+    createdAt: String
   }
 
   type Query {
