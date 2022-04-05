@@ -13,6 +13,7 @@ import { db } from './db';
 import { WebSocket } from './WebSocketServer';
 import { BaseRedisCache } from 'apollo-server-cache-redis';
 import { RedisOptions } from './redis';
+import bodyParser from 'body-parser';
 
 const port = process.env.PORT || 4000;
 
@@ -24,6 +25,9 @@ export const bootstrap = async (schema: GraphQLSchema) => {
 
   app.use(cors());
   app.use(compression());
+  app.use(bodyParser.json({
+    limit: '50mb'
+  }));
 
 
   // Create the Web Socket instance, using the schema we created earlier
