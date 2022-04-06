@@ -9,6 +9,10 @@ export const resolvers: Resolvers = {
     },
     getProductById: (_: any, { id }: { id: string }): any =>
       Product.findById(id),
+      // @ts-ignore
+    getProductByUuid: (_: any, { uuid }: { uuid: string }): any =>
+      Product.findOne({ uuid }),
+
   },
   Mutation: {
     //@ts-ignore
@@ -32,7 +36,15 @@ export const resolvers: Resolvers = {
       store.productIds.push(chiData.id);
       let newProduct = await store.save();
 
-      pubsub.publish("productAdded", { productAdded: chiData });
+      const category = await Category.findById(input.categoryIds[0]);
+      if (!category) {
+        throw new Error("Category not found");
+      }
+
+      category.productIds.push(chiData.id);
+      let newCategory = await category.save();
+
+      pubsub.publish("productAdded", { productAdded: chiData }); //realtime update
       return chiData;
     },
     //@ts-ignore
@@ -60,6 +72,11 @@ export const resolvers: Resolvers = {
       );
       return product;
     },
+    //@ts-ignore
+    deleteProduct: async (_: any, { id }: { id: string }) => {
+      const product = await Product.findByIdAndDelete(id);
+      return product;
+    }
   },
   Subscription: {
     productAdded: {

@@ -37,6 +37,7 @@ export const typeDefs = gql`
     type Query {
         getAllProducts: [Product]
         getProductById(id: ID!): Product
+        getProductByUuid(uuid: String!): Product
     }
 
     type Mutation {

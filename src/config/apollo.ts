@@ -29,6 +29,38 @@ export const bootstrap = async (schema: GraphQLSchema) => {
     limit: '50mb'
   }));
 
+  const io = require('socket.io')(httpServer, {
+    cors: {
+      origins: ["*"]
+    }
+  });
+
+  io.on('connection', (socket) => {
+
+    socket.on('join', (data) => {
+      console.log('join', data);
+      socket.join(data.storeId);
+    });
+
+    console.log('a user connected');
+
+    socket.on('my message', (msg) => {
+      io.emit('my broadcast', 
+        {
+          message: msg,
+        }
+      );
+      console.log('my message:', msg);
+      
+    });
+
+
+
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+  });
+
 
   // Create the Web Socket instance, using the schema we created earlier
   const serverCleanup = WebSocket(httpServer, schema);

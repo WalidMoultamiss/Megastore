@@ -4,6 +4,7 @@ import { User, IUser, Store } from "@models/index";
 import { hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 
+
 export const resolvers: Resolvers = {
   Query: {
     hello: (): string => "Hello world!",
@@ -55,7 +56,9 @@ export const resolvers: Resolvers = {
         expiresIn: process.env.JWT_EXPIRES_IN,
       });
 
-      pubsub.publish("userLoggedIn", { userLoggedIn: user });
+      //send socket
+      
+
 
       user.token = token;
       return user;
