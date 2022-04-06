@@ -11,6 +11,7 @@ export const typeDefs = gql`
         categoryIds: [ID]
         stock: String
         promoPrice: String
+        quantity: String
     }
 
     input ProductStoreInput {
@@ -31,7 +32,7 @@ export const typeDefs = gql`
         status: String
         createdAt: String
         uuid: String
-
+        quantity: String
     }
 
     type Query {
