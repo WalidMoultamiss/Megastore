@@ -13,6 +13,11 @@ export const typeDefs = gql`
         promoPrice: String
     }
 
+    input pagination {
+        cursor: Int
+        limit: Int
+    }
+
     input ProductStoreInput {
         storeId: ID
         productIds: [ID]
@@ -31,6 +36,7 @@ export const typeDefs = gql`
         status: String
         createdAt: String
         uuid: String
+        viewed: Int
 
     }
 
@@ -38,6 +44,7 @@ export const typeDefs = gql`
         getAllProducts: [Product]
         getProductById(id: ID!): Product
         getProductByUuid(uuid: String!): Product
+        getAllProductsWithPagination(inputs: pagination): [Product]
     }
 
     type Mutation {
@@ -45,6 +52,7 @@ export const typeDefs = gql`
         createProduct(input: ProductInput): Product
         updateProduct(id: ID!, input: ProductInput): Product
         deleteProduct(id: ID!): Product
+        addViewed(id: ID!): Product
     }
 
     type Subscription {

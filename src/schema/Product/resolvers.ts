@@ -1,12 +1,18 @@
 import { pubsub } from "@config/pubsub";
 import type { Resolvers } from "@generated/types";
 import { Product, IProduct, Store, Category } from "@models/index";
+import {io} from '../../config/apollo'
 
 export const resolvers: Resolvers = {
   Query: {
     getAllProducts: (): any => {
       return Product.find();
     },
+    //@ts-ignore
+    getAllProductsWithPagination: (_: any, { inputs }: { inputs: any }): any => {
+      return Product.find().limit(inputs.limit).skip(inputs.cursor);
+    },
+    //@ts-ignore
     getProductById: (_: any, { id }: { id: string }): any =>
       Product.findById(id),
       // @ts-ignore
@@ -16,11 +22,43 @@ export const resolvers: Resolvers = {
   },
   Mutation: {
     //@ts-ignore
-    createProduct: async (_: any, { input }: { input: IProduct }) => {
+    createProduct: async (_: any, { input }: { input: IProduct } ) => {
+
+
+      // console.log(io);
+
+io.on('connection', (socket) => {
+  console.log('🍕 connected');
+  
+  console.log(socket);
+
+  socket.on('mymessage', (msg) => {
+    console.log(msg);
+  });
+  socket.emit('mymessage',
+    {
+      message: "libghiti",
+    }
+  );
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+
+
+
+
+
+
+
       const uuid =
         input.name.toLowerCase().replace(/ /g, "-") +
         "-" +
         Math.random().toString(36).substring(2, 6);
+
+
       const product = new Product({
         ...input,
         uuid,
@@ -47,7 +85,7 @@ export const resolvers: Resolvers = {
       pubsub.publish("productAdded", { productAdded: chiData }); //realtime update
       return chiData;
     },
-    //@ts-ignore
+    // @ts-ignore
     addProductToStore: async (_: any, { input }: { input: any }) => {
       const { storeId, productIds } = input;
       const store = await Store.findById(storeId);
@@ -56,6 +94,16 @@ export const resolvers: Resolvers = {
       }
       store.productIds.push(...productIds);
       let chiData = await store.save();
+      return chiData;
+    },
+    // @ts-ignore
+    addViewed: async (_: any, { id }: { id: string }) => {
+      const product = await Product.findById(id);
+      if (!product) {
+        throw new Error("Product not found");
+      }
+      product.viewed += 1;
+      let chiData = await product.save();
       return chiData;
     },
     //@ts-ignore

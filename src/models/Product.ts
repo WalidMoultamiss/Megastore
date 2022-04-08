@@ -14,6 +14,7 @@ export interface IProduct {
   stock: string;
   createdAt: string;
   status: string;
+  viewed: number;
 }
 
 
@@ -29,7 +30,8 @@ const ProductSchema = new Schema<IProduct>({
   stock: { type: String, required: true },
   promoPrice: { type: String, required: false },
   status: { type: String, default: "ACTIVE" },
-  createdAt: { type: String, default: ''+Date.now() }
+  createdAt: { type: String, default: ''+Date.now() },
+  viewed: { type: Number, default: 0 }
 });
 
 export const Product = model<IProduct>("Product", ProductSchema);

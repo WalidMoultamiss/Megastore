@@ -56,7 +56,7 @@ export type BrandProductInput = {
 export type Cart = {
   __typename?: 'Cart';
   id?: Maybe<Scalars['ID']>;
-  orderIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  orderIds?: Maybe<Array<Maybe<Order>>>;
   userId: User;
 };
 
@@ -292,12 +292,17 @@ export type OrderInput = {
 export type Product = {
   __typename?: 'Product';
   categoryIds?: Maybe<Array<Maybe<Category>>>;
+  createdAt?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['String']>;
+  image?: Maybe<Array<Maybe<Scalars['String']>>>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['String']>;
+  promoPrice?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  stock?: Maybe<Scalars['String']>;
   storeId?: Maybe<Store>;
+  uuid?: Maybe<Scalars['String']>;
 };
 
 export type ProductCategoryInput = {
@@ -306,10 +311,13 @@ export type ProductCategoryInput = {
 };
 
 export type ProductInput = {
+  categoryIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   description?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   name?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['String']>;
+  promoPrice?: InputMaybe<Scalars['String']>;
+  stock?: InputMaybe<Scalars['String']>;
   storeId?: InputMaybe<Scalars['ID']>;
 };
 
@@ -327,6 +335,7 @@ export type Query = {
   getAllCategories?: Maybe<Array<Maybe<Category>>>;
   getAllOrders?: Maybe<Array<Maybe<Order>>>;
   getAllProducts?: Maybe<Array<Maybe<Product>>>;
+  getAllProductsWithPagination?: Maybe<Array<Maybe<Product>>>;
   getAllStoreOptions?: Maybe<Array<Maybe<StoreOptions>>>;
   getAllStores?: Maybe<Array<Maybe<Store>>>;
   getAllSubAdmins: Array<Maybe<SubAdmin>>;
@@ -338,6 +347,7 @@ export type Query = {
   getLastOrderByUserId?: Maybe<Order>;
   getOrderById?: Maybe<Order>;
   getProductById?: Maybe<Product>;
+  getProductByUuid?: Maybe<Product>;
   getStoreById?: Maybe<Store>;
   getStoreOptionsById?: Maybe<StoreOptions>;
   getStoreOptionsByStoreId?: Maybe<StoreOptions>;
@@ -349,6 +359,11 @@ export type Query = {
 
 export type QueryGetAdminByIdArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryGetAllProductsWithPaginationArgs = {
+  inputs?: InputMaybe<Pagination>;
 };
 
 
@@ -384,6 +399,11 @@ export type QueryGetOrderByIdArgs = {
 
 export type QueryGetProductByIdArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryGetProductByUuidArgs = {
+  uuid: Scalars['String'];
 };
 
 
@@ -484,14 +504,27 @@ export type SubAdminInput = {
   password?: InputMaybe<Scalars['String']>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  productAdded?: Maybe<Product>;
+  productDeleted?: Maybe<Product>;
+  productUpdated?: Maybe<Product>;
+  userAdded?: Maybe<User>;
+  userDeleted?: Maybe<User>;
+  userLoggedIn?: Maybe<User>;
+  userUpdated?: Maybe<User>;
+};
+
 export type User = {
   __typename?: 'User';
+  createdAt?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   lastName?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   role?: Maybe<Role>;
+  store?: Maybe<Store>;
   token?: Maybe<Scalars['String']>;
 };
 
@@ -513,6 +546,11 @@ export type CreateAdminInput = {
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
+};
+
+export type Pagination = {
+  cursor?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -596,6 +634,7 @@ export type ResolversTypes = {
   CategoryInput: CategoryInput;
   CategoryProductInput: CategoryProductInput;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
   Order: ResolverTypeWrapper<Order>;
@@ -613,10 +652,12 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   SubAdmin: ResolverTypeWrapper<SubAdmin>;
   SubAdminInput: SubAdminInput;
+  Subscription: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
   UserInput: UserInput;
   addOptionToStore: AddOptionToStore;
   createAdminInput: CreateAdminInput;
+  pagination: Pagination;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -633,6 +674,7 @@ export type ResolversParentTypes = {
   CategoryInput: CategoryInput;
   CategoryProductInput: CategoryProductInput;
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   LoginInput: LoginInput;
   Mutation: {};
   Order: Order;
@@ -649,10 +691,12 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   SubAdmin: SubAdmin;
   SubAdminInput: SubAdminInput;
+  Subscription: {};
   User: User;
   UserInput: UserInput;
   addOptionToStore: AddOptionToStore;
   createAdminInput: CreateAdminInput;
+  pagination: Pagination;
 };
 
 export type AdminResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Admin'] = ResolversParentTypes['Admin']> = {
@@ -676,7 +720,7 @@ export type BrandResolvers<ContextType = Context, ParentType extends ResolversPa
 
 export type CartResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  orderIds?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType>;
+  orderIds?: Resolver<Maybe<Array<Maybe<ResolversTypes['Order']>>>, ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -732,12 +776,17 @@ export type OrderResolvers<ContextType = Context, ParentType extends ResolversPa
 
 export type ProductResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
   categoryIds?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  image?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  promoPrice?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  stock?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   storeId?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType>;
+  uuid?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -749,6 +798,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   getAllCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   getAllOrders?: Resolver<Maybe<Array<Maybe<ResolversTypes['Order']>>>, ParentType, ContextType>;
   getAllProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  getAllProductsWithPagination?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, Partial<QueryGetAllProductsWithPaginationArgs>>;
   getAllStoreOptions?: Resolver<Maybe<Array<Maybe<ResolversTypes['StoreOptions']>>>, ParentType, ContextType>;
   getAllStores?: Resolver<Maybe<Array<Maybe<ResolversTypes['Store']>>>, ParentType, ContextType>;
   getAllSubAdmins?: Resolver<Array<Maybe<ResolversTypes['SubAdmin']>>, ParentType, ContextType>;
@@ -760,6 +810,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   getLastOrderByUserId?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, RequireFields<QueryGetLastOrderByUserIdArgs, 'userId'>>;
   getOrderById?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType, RequireFields<QueryGetOrderByIdArgs, 'id'>>;
   getProductById?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByIdArgs, 'id'>>;
+  getProductByUuid?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByUuidArgs, 'uuid'>>;
   getStoreById?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType, RequireFields<QueryGetStoreByIdArgs, 'id'>>;
   getStoreOptionsById?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType, RequireFields<QueryGetStoreOptionsByIdArgs, 'id'>>;
   getStoreOptionsByStoreId?: Resolver<Maybe<ResolversTypes['StoreOptions']>, ParentType, ContextType, RequireFields<QueryGetStoreOptionsByStoreIdArgs, 'id'>>;
@@ -806,13 +857,25 @@ export type SubAdminResolvers<ContextType = Context, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type SubscriptionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  productAdded?: SubscriptionResolver<Maybe<ResolversTypes['Product']>, "productAdded", ParentType, ContextType>;
+  productDeleted?: SubscriptionResolver<Maybe<ResolversTypes['Product']>, "productDeleted", ParentType, ContextType>;
+  productUpdated?: SubscriptionResolver<Maybe<ResolversTypes['Product']>, "productUpdated", ParentType, ContextType>;
+  userAdded?: SubscriptionResolver<Maybe<ResolversTypes['User']>, "userAdded", ParentType, ContextType>;
+  userDeleted?: SubscriptionResolver<Maybe<ResolversTypes['User']>, "userDeleted", ParentType, ContextType>;
+  userLoggedIn?: SubscriptionResolver<Maybe<ResolversTypes['User']>, "userLoggedIn", ParentType, ContextType>;
+  userUpdated?: SubscriptionResolver<Maybe<ResolversTypes['User']>, "userUpdated", ParentType, ContextType>;
+};
+
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
+  store?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -829,6 +892,7 @@ export type Resolvers<ContextType = Context> = {
   Store?: StoreResolvers<ContextType>;
   StoreOptions?: StoreOptionsResolvers<ContextType>;
   SubAdmin?: SubAdminResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

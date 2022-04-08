@@ -7,7 +7,21 @@ import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import { createServer } from 'http';
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
-import { context } from './context';
+import { Request } from 'express';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+import { pubsub } from './pubsub';
+import {Server} from 'socket.io'
+
+export const io = new Server(7300 , {
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
+  allowEIO3: true,
+  pingInterval: 10000,
+})
+
+// import { context } from './context';
 import { GraphQLSchema } from 'graphql';
 import { db } from './db';
 import { WebSocket } from './WebSocketServer';
@@ -16,50 +30,29 @@ import { RedisOptions } from './redis';
 import bodyParser from 'body-parser';
 
 const port = process.env.PORT || 4000;
+const app = express();
+const httpServer = createServer(app);
+
+
+export interface Context {
+  req: Request;
+  pubsub: RedisPubSub;
+  io: any;
+}
+
+
+
+
 
 export const bootstrap = async (schema: GraphQLSchema) => {
   // Create an Express app and HTTP server; we will attach both the WebSocket
   // server and the ApolloServer to this HTTP server.
-  const app = express();
-  const httpServer = createServer(app);
 
   app.use(cors());
   app.use(compression());
   app.use(bodyParser.json({
     limit: '50mb'
   }));
-
-  const io = require('socket.io')(httpServer, {
-    cors: {
-      origins: ["*"]
-    }
-  });
-
-  io.on('connection', (socket) => {
-
-    socket.on('join', (data) => {
-      console.log('join', data);
-      socket.join(data.storeId);
-    });
-
-    console.log('a user connected');
-
-    socket.on('my message', (msg) => {
-      io.emit('my broadcast', 
-        {
-          message: msg,
-        }
-      );
-      console.log('my message:', msg);
-      
-    });
-
-
-
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
-    });
-  });
 
 
   // Create the Web Socket instance, using the schema we created earlier
@@ -68,7 +61,16 @@ export const bootstrap = async (schema: GraphQLSchema) => {
   // Set up ApolloServer.
   const server = new ApolloServer({
     introspection: true,
-    context,
+    context: async ({ req }: { req: Request }): Promise<Context> => {
+
+
+      return {
+        req,
+        io,
+        // @ts-ignore
+        pubsub,
+      };
+    },
     schema,
     cache: new BaseRedisCache({
       //@ts-ignore

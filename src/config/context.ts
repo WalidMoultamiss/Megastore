@@ -4,12 +4,28 @@ import { pubsub } from './pubsub';
 export interface Context {
   req: Request;
   pubsub: RedisPubSub;
+  io: any;
 }
 
-export const context = async ({ req }: { req: Request }): Promise<Context> => {
-  return {
-    req,
-    // @ts-ignore
-    pubsub,
-  };
-};
+
+
+
+
+
+
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+// });
+
+
+
+// export const context = async ({ req }: { req: Request }): Promise<Context> => {
+
+
+//   return {
+//     req,
+//     io,
+//     // @ts-ignore
+//     pubsub,
+//   };
+// };
