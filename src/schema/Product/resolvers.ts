@@ -6,7 +6,14 @@ import {io} from '../../config/apollo'
 export const resolvers: Resolvers = {
   Query: {
     getAllProducts: (): any => {
-      return Product.find();
+      let products =  Product.find();
+      // filter by viewed number
+
+      products = products.sort({ viewed: -1 });
+      return products;
+
+      
+      
     },
     //@ts-ignore
     getAllProductsWithPagination: (_: any, { inputs }: { inputs: any }): any => {
@@ -104,6 +111,8 @@ io.on('connection', (socket) => {
       }
       product.viewed += 1;
       let chiData = await product.save();
+
+      pubsub.publish("productViewed", { productViewed: chiData }); //realtime update
       return chiData;
     },
     //@ts-ignore
@@ -129,6 +138,9 @@ io.on('connection', (socket) => {
   Subscription: {
     productAdded: {
       subscribe: () => pubsub.asyncIterator("productAdded"),
+    },
+    productViewed: {
+      subscribe: () => pubsub.asyncIterator("productViewed"),
     },
   },
   Product: {

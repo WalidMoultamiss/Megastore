@@ -31,7 +31,8 @@ const schema = new Schema<IUser>(
       enum: Role,
       default: Role.USER,
     },
-    createdAt:{ type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
+    
   },
 
 );

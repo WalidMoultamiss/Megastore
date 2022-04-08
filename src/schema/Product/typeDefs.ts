@@ -11,6 +11,7 @@ export const typeDefs = gql`
         categoryIds: [ID]
         stock: String
         promoPrice: String
+        quantity: String
     }
 
     input pagination {
@@ -37,7 +38,7 @@ export const typeDefs = gql`
         createdAt: String
         uuid: String
         viewed: Int
-
+        quantity: String
     }
 
     type Query {
@@ -59,5 +60,6 @@ export const typeDefs = gql`
         productAdded: Product
         productUpdated: Product
         productDeleted: Product
+        productViewed: Product
     }
 `;

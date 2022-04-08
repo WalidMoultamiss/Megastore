@@ -12,6 +12,7 @@ export interface IProduct {
   storeId: string;
   categoryIds: string[];
   stock: string;
+  quantity: string;
   createdAt: string;
   status: string;
   viewed: number;
@@ -27,6 +28,7 @@ const ProductSchema = new Schema<IProduct>({
   price: { type: String, required: true },
   storeId: { type: String, required: true },
   categoryIds: { type: [String] },
+  quantity: { type: String},
   stock: { type: String, required: true },
   promoPrice: { type: String, required: false },
   status: { type: String, default: "ACTIVE" },
