@@ -95,7 +95,7 @@ export const bootstrap = async (schema: GraphQLSchema) => {
   });
 
   await server.start();
-  server.applyMiddleware({ app, path: '/gql', cors: { origin: ['http://localhost:3000','https://megastore-front-7f01dm2hd-walidmoultamiss.vercel.app' , 'http://localhost:3002'] } });
+  server.applyMiddleware({ app, path: '/gql', cors: { origin: "*" } });
 
   // Now that our HTTP server is fully set up, we can listen to it.
   httpServer.listen(port, async () => {
