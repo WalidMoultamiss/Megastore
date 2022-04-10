@@ -12,6 +12,10 @@ export const typeDefs = gql`
         productIds: [ID]
     }
 
+    type Images {
+        image: String
+    }
+
     type Store {
         id: ID!
         name: String!

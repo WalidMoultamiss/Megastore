@@ -7,6 +7,7 @@ export const resolvers: Resolvers = {
       return Store.find();
     },
     getStoreById: (_: any, { id }: { id: string }): any => Store.findById(id),
+    //@ts-ignore
   },
   Mutation: {
       //@ts-ignore
