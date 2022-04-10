@@ -34,31 +34,6 @@ export const resolvers: Resolvers = {
 
       // console.log(io);
 
-io.on('connection', (socket) => {
-  console.log('🍕 connected');
-  
-  console.log(socket);
-
-  socket.on('mymessage', (msg) => {
-    console.log(msg);
-  });
-  socket.emit('mymessage',
-    {
-      message: "libghiti",
-    }
-  );
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-});
-
-
-
-
-
-
-
 
       const uuid =
         input.name.toLowerCase().replace(/ /g, "-") +
@@ -89,7 +64,6 @@ io.on('connection', (socket) => {
       category.productIds.push(chiData.id);
       let newCategory = await category.save();
 
-      pubsub.publish("productAdded", { productAdded: chiData }); //realtime update
       return chiData;
     },
     // @ts-ignore
@@ -112,7 +86,6 @@ io.on('connection', (socket) => {
       product.viewed += 1;
       let chiData = await product.save();
 
-      pubsub.publish("productViewed", { productViewed: chiData }); //realtime update
       return chiData;
     },
     //@ts-ignore
@@ -134,14 +107,6 @@ io.on('connection', (socket) => {
       const product = await Product.findByIdAndDelete(id);
       return product;
     }
-  },
-  Subscription: {
-    productAdded: {
-      subscribe: () => pubsub.asyncIterator("productAdded"),
-    },
-    productViewed: {
-      subscribe: () => pubsub.asyncIterator("productViewed"),
-    },
   },
   Product: {
     storeId: async ({ storeId }) => {

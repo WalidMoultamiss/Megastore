@@ -25,20 +25,20 @@ export const typeDefs = gql`
     }
 
     type Product {
-        id: ID
-        name: String
-        description: String
-        image: [String]
-        price: String
-        promoPrice: String
-        storeId: Store
-        categoryIds: [Category]
-        stock: String
-        status: String
-        createdAt: String
-        uuid: String
-        viewed: Int
-        quantity: String
+        id: ID!
+        name: String!
+        description: String!
+        image: [String]!
+        price: String!
+        promoPrice: String!
+        storeId: Store!
+        categoryIds: [Category]!
+        stock: String!
+        status: String!
+        createdAt: String!
+        uuid: String!
+        viewed: Int!
+        quantity: String!
     }
 
     type Query {

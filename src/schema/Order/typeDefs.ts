@@ -8,10 +8,10 @@ export const typeDefs = gql`
     }
 
     type Order {
-        id: ID
-        userId: User
-        productId: Product
-        quantity: String
+        id: ID!
+        userId: User!
+        productId: Product!
+        quantity: String!
     }
 
     type Query {

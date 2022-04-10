@@ -21,12 +21,12 @@ export const typeDefs = gql`
   }
 
   type SubAdmin {
-    id: ID
-    firstName: String
-    lastName: String
-    email: String
-    password: String
-    token: String
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    token: String!
   }
 
   type Query {

@@ -15,11 +15,11 @@ export const typeDefs = gql`
     }
 
     type Brand {
-        id: ID
-        name: String
-        description: String
-        image: String
-        productIds: [Product]
+        id: ID!
+        name: String!
+        description: String!
+        image: String!
+        productIds: [Product]!
     }
 
     type Query {

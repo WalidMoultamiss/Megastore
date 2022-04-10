@@ -13,15 +13,15 @@ export const typeDefs = gql`
     }
 
     type Store {
-        id: ID
-        name: String
-        address: String
-        phone: String
-        description: String
-        image: String
-        userId: User
-        productIds: [Product]
-        options: StoreOptions
+        id: ID!
+        name: String!
+        address: String!
+        phone: String!
+        description: String!
+        image: String!
+        userId: User!
+        productIds: [Product]!
+        options: StoreOptions!
     }
 
     type Query {

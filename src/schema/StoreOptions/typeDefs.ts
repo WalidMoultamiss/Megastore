@@ -20,17 +20,17 @@ export const typeDefs = gql`
     }
 
     type StoreOptions {
-        id: ID
-        slider: Boolean
-        slider_image: [String]
-        bestProducts: Boolean
-        ourBrands: Boolean
-        whatsapp: Boolean
-        popup: Boolean
-        primaryColor: String
-        bgColor: String
-        storeId: String
-        popupImage: String
+        id: ID!
+        slider: Boolean!
+        slider_image: [String]!
+        bestProducts: Boolean!
+        ourBrands: Boolean!
+        whatsapp: Boolean!
+        popup: Boolean!
+        primaryColor: String!
+        bgColor: String!
+        storeId: String!
+        popupImage: String!
     }
 
     type Query {

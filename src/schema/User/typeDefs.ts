@@ -22,15 +22,15 @@ export const typeDefs = gql`
   }
 
   type User {
-    id: ID
-    firstName: String
-    lastName: String
-    email: String
-    role: Role
-    password: String
-    token: String
-    store: Store
-    createdAt: String
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    role: Role!
+    password: String!
+    token: String!
+    store: Store!
+    createdAt: String!
   }
 
   type Query {

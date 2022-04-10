@@ -25,11 +25,11 @@ export const typeDefs = gql`
   }
 
   type Category {
-    id: ID
-    name: String
-    description: String
-    image: String
-    productIds: [Product]
+    id: ID!
+    name: String!
+    description: String!
+    image: String!
+    productIds: [Product]!
   }
 
   type Query {
