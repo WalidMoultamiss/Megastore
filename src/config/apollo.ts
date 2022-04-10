@@ -11,17 +11,6 @@ import { Request } from 'express';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { pubsub } from './pubsub';
 import {Server} from 'socket.io'
-
-export const io = new Server(7300 , {
-  cors: {
-    origin: "*",
-    credentials: true,
-  },
-  allowEIO3: true,
-  pingInterval: 10000,
-})
-
-// import { context } from './context';
 import { GraphQLSchema } from 'graphql';
 import { db } from './db';
 import { WebSocket } from './WebSocketServer';
@@ -33,6 +22,15 @@ const port = process.env.PORT || 4000;
 const app = express();
 const httpServer = createServer(app);
 
+
+export const io = new Server(7300 , {
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
+  allowEIO3: true,
+  pingInterval: 10000,
+})
 
 export interface Context {
   req: Request;
@@ -97,12 +95,12 @@ export const bootstrap = async (schema: GraphQLSchema) => {
   });
 
   await server.start();
-  server.applyMiddleware({ app, path: '/gql', cors: { origin: '*' } });
+  server.applyMiddleware({ app, path: '/gql', cors: { origin: ['http://localhost:3000','https://megastore-front-7f01dm2hd-walidmoultamiss.vercel.app' , 'http://localhost:3002'] } });
 
   // Now that our HTTP server is fully set up, we can listen to it.
   httpServer.listen(port, async () => {
     console.log(
-      `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
+      `🚀 Server ready at ${port}${server.graphqlPath}`
     );
     const { connection } = await db();
     // connect to database

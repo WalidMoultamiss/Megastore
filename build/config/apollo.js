@@ -15,14 +15,6 @@ const apollo_server_express_1 = require("apollo-server-express");
 const apollo_server_core_1 = require("apollo-server-core");
 const pubsub_1 = require("./pubsub");
 const socket_io_1 = require("socket.io");
-exports.io = new socket_io_1.Server(7300, {
-    cors: {
-        origin: "*",
-        credentials: true,
-    },
-    allowEIO3: true,
-    pingInterval: 10000,
-});
 const db_1 = require("./db");
 const WebSocketServer_1 = require("./WebSocketServer");
 const apollo_server_cache_redis_1 = require("apollo-server-cache-redis");
@@ -31,6 +23,14 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const port = process.env.PORT || 4000;
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
+exports.io = new socket_io_1.Server(7300, {
+    cors: {
+        origin: "*",
+        credentials: true,
+    },
+    allowEIO3: true,
+    pingInterval: 10000,
+});
 const bootstrap = async (schema) => {
     // Create an Express app and HTTP server; we will attach both the WebSocket
     // server and the ApolloServer to this HTTP server.
@@ -77,10 +77,10 @@ const bootstrap = async (schema) => {
         },
     });
     await server.start();
-    server.applyMiddleware({ app, path: '/gql', cors: { origin: '*' } });
+    server.applyMiddleware({ app, path: '/gql', cors: { origin: 'http://localhost:3002/*' } });
     // Now that our HTTP server is fully set up, we can listen to it.
     httpServer.listen(port, async () => {
-        console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
+        console.log(`🚀 Server ready at: ${port}${server.graphqlPath}`);
         const { connection } = await (0, db_1.db)();
         // connect to database
         console.log(`👋 Connected to database successfully: ${connection.name}`);
